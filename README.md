@@ -22,4 +22,9 @@ LD_LIBRARY_PATH=x86_64 python assistant.py
 ### 说明
 出门问问Linux SDK来自http://ai.chumenwenwen.com/pages/document/intro。
 
-目前，只支持x86_64(在Ubuntu 16.04 x86_64上测试的)，ARM版和MIPS版没有在Raspberry Pi 3（Raspbian）和MT7688（ReSpeaker Core，OpenWrt 15.05）上运行成功，出门问问居然不说明SDK的编译环境和工具链，特地去问也没告诉！-_-
+目前，只支持x86_64(在Ubuntu 16.04 x86_64上测试的)，ARM版和MIPS版没有在Raspberry Pi 3（Ubuntu Mate 16.04）和MT7688（ReSpeaker Core，OpenWrt 15.05）上运行成功，出门问问居然不说明SDK的编译环境和工具链，特地去问也没告诉！-_-
+
+如果你有ARMv7的硬件，可以下面的命令试试看能不能运行。
+```
+LD_LIBRARY_PATH=armv7l python assistant.py
+```
