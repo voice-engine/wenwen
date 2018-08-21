@@ -137,15 +137,8 @@ class Assistant(object):
         self.stop()
 
     def _load_lib(self):
-        os_name = os.uname()[0]
-        platform = os.uname()[4]
-
         lib_name = 'libmobvoisdk.so'
-        lib_path = os.path.join(os.path.dirname(__file__), platform, lib_name)
-
-        if os_name != 'Linux' or not os.path.isfile(lib_path):
-            raise OSError('{} {} is not supported.'.format(os_name, platform))
-
+        lib_path = os.path.join(os.path.dirname(__file__), 'x86_64', lib_name)
         self._lib = cdll.LoadLibrary(lib_path)
 
         # void add_hotword_handler(struct hotword_handler_vtable* handlers)
@@ -219,7 +212,7 @@ def main():
                     frames_per_buffer=CHUNK)
 
     with Assistant() as assistant:
-        for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        for _ in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             try:
                 data = stream.read(CHUNK)
                 assistant.put(data)
