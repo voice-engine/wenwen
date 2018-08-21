@@ -53,7 +53,7 @@ class Assistant(object):
     def __init__(self, key):
         self._load_lib()
         # self._lib.mobvoi_set_vlog_level(1)
-        self._lib.mobvoi_recognizer_set_params('mobvoi_folder', '.mobvoi')
+        self._lib.mobvoi_recognizer_set_params('mobvoi_folder', os.path.join(os.path.dirname(__file__), '.mobvoi'))
         # self._lib.mobvoi_recognizer_set_params("location", "中国,北京市,北京市,海淀区,苏州街,3号,39.989602,116.316568")
         
         # Shenzhen Nanshan Xili
