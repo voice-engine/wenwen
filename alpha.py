@@ -10,6 +10,9 @@ import player
 import yeelight
 import gpiozero
 
+from avs.alexa import Alexa
+
+alexa = Alexa()
 
 led = gpiozero.LED(5)
 led.on()
@@ -17,7 +20,7 @@ led.on()
 lamp = yeelight.Bulb('192.168.0.104')
 
 
-weekday = ('1', '2', '3', '4', '6', '天')
+weekday = ('', '1', '2', '3', '4', '6', '天')
 
 
 class Mirror(Assistant):
@@ -61,9 +64,12 @@ class Mirror(Assistant):
             elif text.find('今天星期几') >= 0 or text.find('今天几号') >= 0:
                 now = datetime.datetime.now()
                 player.play(self.synthesize('今天是{}月{}号，星期{}'.format(now.month, now.day, weekday[now.weekday()])))
-            else:
-                player.play(self.synthesize(text))
-                time.sleep(1)
+            elif text.find('小呆') >= 0:
+                alexa.listen()
+                time.sleep(3)
+            #else:
+            #    player.play(self.synthesize(text))
+            #    time.sleep(1)
         except Exception as e:
             print(e)
 
@@ -85,6 +91,8 @@ def main():
     assistant = Mirror()
 
     src.pipeline(bf, ns, assistant)
+    ns.link(alexa)
+
     src.pipeline_start()
 
     led.off()
