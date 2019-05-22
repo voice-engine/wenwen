@@ -8,7 +8,7 @@ import player
 
 
 class Mirror(Assistant):
-    def __init__(self, key=''):
+    def __init__(self, key=b''):
         super(Mirror, self).__init__(key)
 
         self.set_keywords(['开灯', '关灯', '播放音乐', '几点了', '暂停', '魔镜', '今天的天气怎么样', '会下雨吗'])

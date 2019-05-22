@@ -24,7 +24,7 @@ weekday = ('', '1', '2', '3', '4', '6', '天')
 
 
 class Mirror(Assistant):
-    def __init__(self, key=''):
+    def __init__(self, key=b''):
         super(Mirror, self).__init__(key)
 
         self.set_keywords(['开灯', '关灯', '播放音乐', '几点了', '现在几点', '今天几号', '今天星期几', '暂停', '小呆', '今天的天气怎么样', '会下雨吗'])
@@ -53,6 +53,7 @@ class Mirror(Assistant):
     def on_partial_transcription(self, text):
         self.listening = False
         led.on()
+        text = text.decode('utf-8')
         try:
             if text.find('开灯') >= 0:
                 lamp.turn_on()

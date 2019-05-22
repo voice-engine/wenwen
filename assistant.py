@@ -50,14 +50,14 @@ class RecognizerHandler(Structure):
     ]
 
 class Assistant(object):
-    def __init__(self, key):
+    def __init__(self, key=b''):
         self._load_lib()
         # self._lib.mobvoi_set_vlog_level(1)
-        self._lib.mobvoi_recognizer_set_params('mobvoi_folder', os.path.join(os.path.dirname(__file__), '.mobvoi'))
+        self._lib.mobvoi_recognizer_set_params(b'mobvoi_folder', os.path.join(os.path.dirname(__file__), '.mobvoi').encode('utf-8'))
         # self._lib.mobvoi_recognizer_set_params("location", "中国,北京市,北京市,海淀区,苏州街,3号,39.989602,116.316568")
         
         # Shenzhen Nanshan Xili
-        self._lib.mobvoi_recognizer_set_params("location", "中国,深圳市,深圳市,南山区,留仙大道,1183号,22.581998,113.96513")
+        self._lib.mobvoi_recognizer_set_params(b'location', '中国,深圳市,深圳市,南山区,留仙大道,1183号,22.581998,113.96513'.encode('utf-8'))
 
         self._lib.mobvoi_sdk_init(key)
         self._lib.mobvoi_recognizer_init_offline()
@@ -180,16 +180,17 @@ class Assistant(object):
         StringPointer = ARRAY(c_char_p, len(keywords)) 
         c_keywords = StringPointer()
         for i in range(len(keywords)):
-            c_keywords[i] = c_char_p(keywords[i])
+            c_keywords[i] = c_char_p(keywords[i].encode('utf-8'))
 
-        self._lib.mobvoi_recognizer_set_keywords(len(keywords), c_keywords, 'multi_keywords')
-        self._lib.mobvoi_recognizer_set_params('offline_model', 'multi_keywords')
-        self._lib.mobvoi_recognizer_build_keywords('multi_keywords')
+        self._lib.mobvoi_recognizer_set_keywords(len(keywords), c_keywords, b'multi_keywords')
+        self._lib.mobvoi_recognizer_set_params(b'offline_model', b'multi_keywords')
+        self._lib.mobvoi_recognizer_build_keywords(b'multi_keywords')
 
     # tts type: 1 - online, 2 - offline, 3 - mix
     def synthesize(self, text, tts_type=2):
-        if type(text) is not str:
+        if type(text) is str:
             text = text.encode('utf-8')
+
         self._lib.mobvoi_tts_start_synthesis(tts_type, text)
 
         size = 1024
