@@ -18,13 +18,17 @@ def play(data, rate=16000, channels=1, width=2):
     command = 'aplay -c {} -r {} -f {} -'.format(channels, rate, format_list[width])
     
     p = subprocess.Popen(command, stdin=subprocess.PIPE, shell=True)
+    p.stdin.write(b'\0' * 2 * 16000)
     if isinstance(data, types.GeneratorType):
         for d in data:
+            print(len(d))
             p.stdin.write(d)
     else:
         p.stdin.write(data)
 
+    p.stdin.write(b'\0' * 2 * 16000)
     p.stdin.close()
+    p.wait()
 
 
 def play_wav(wav):
